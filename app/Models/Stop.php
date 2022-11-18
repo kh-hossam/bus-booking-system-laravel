@@ -11,4 +11,15 @@ class Stop extends Model
 
     public $guarded = [];
 
+
+    public function trip()
+    {
+        return $this->belongsTo(Trip::class);
+    }
+
+
+    public function station()
+    {
+        return $this->belongsTo(Station::class);
+    }
 }

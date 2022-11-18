@@ -10,4 +10,16 @@ class Bus extends Model
     use HasFactory;
 
     public $guarded = [];
+
+
+    public function seats()
+    {
+        return $this->hasMany(Seat::class);
+    }
+
+
+    public function trips()
+    {
+        return $this->hasMany(Trip::class);
+    }
 }

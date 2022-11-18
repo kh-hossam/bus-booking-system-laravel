@@ -11,4 +11,10 @@ class Station extends Model
 
     public $guarded = [];
 
+
+    public function stops()
+    {
+        return $this->hasMany(Stop::class);
+    }
+
 }

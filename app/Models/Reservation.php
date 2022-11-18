@@ -11,4 +11,27 @@ class Reservation extends Model
 
     public $guarded = [];
 
+
+    public function user()
+    {
+        return $this->belongsTo(User::class);
+    }
+
+
+    public function seat()
+    {
+        return $this->belongsTo(Seat::class);
+    }
+
+
+    public function departureStop()
+    {
+        return $this->belongsTo(Stop::class, 'departure_stop_id');
+    }
+
+
+    public function arrivalStop()
+    {
+        return $this->belongsTo(Stop::class, 'arrival_stop_id');
+    }
 }

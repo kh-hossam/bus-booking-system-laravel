@@ -11,4 +11,15 @@ class Trip extends Model
 
     public $guarded = [];
 
+
+    public function bus()
+    {
+        return $this->belongsTo(Bus::class);
+    }
+
+
+    public function stops()
+    {
+        return $this->hasMany(Stop::class);
+    }
 }

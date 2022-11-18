@@ -11,4 +11,9 @@ class Seat extends Model
 
     public $guarded = [];
 
+
+    public function bus()
+    {
+        return $this->belongsTo(Bus::class);
+    }
 }
