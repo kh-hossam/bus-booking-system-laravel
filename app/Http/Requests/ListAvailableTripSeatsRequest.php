@@ -24,7 +24,7 @@ class ListAvailableTripSeatsRequest extends FormRequest
     public function rules()
     {
         return [
-            'start_station_id' => ['required', 'exists:stations,id', 'different:end_station_id'],
+            'start_station_id' => ['required', 'exists:stations,id', 'different:end_station_id', 'lt:end_station_id'],
             'end_station_id' => ['required', 'exists:stations,id', 'different:start_station_id'],
         ];
     }

@@ -24,7 +24,9 @@ class TripController extends Controller
         $trips = Trip::withWhereHas('stops', function($query) use($request){
             $query->where('station_id', $request->input('start_station_id'))
                 ->orWhere('station_id', $request->input('end_station_id'));
-        })->with('bus')->get();
+        })
+            ->whereRelation('stops', 'station_id', $request->input('end_station_id'))
+            ->with('bus')->get();
 
         if($trips->isEmpty()){
             return ApiResponse::fail([], 'No available trips');
@@ -32,7 +34,9 @@ class TripController extends Controller
 
         $trips->each(function(Trip $trip) use ($request){
             if($trip->stops->count() > 1){
-                if($trip->stops->first()->order > $trip->stops->last()->order){
+                $startStation = $trip->stops->where('station_id', $request->input('start_station_id'))->first();
+                $endStation = $trip->stops->where('station_id', $request->input('end_station_id'))->first();
+                if($startStation->order > $endStation->order){
                     throw new WrongStationsOrderException();
                 }
             }
