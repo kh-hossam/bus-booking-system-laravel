@@ -42,9 +42,12 @@ class TripController extends Controller
             }
 
             $trip->available_seats = $trip->bus->seats()->whereDoesntHave('reservations')
-                ->orWhereHas('reservations', function($query) use ($trip, $request) {
-                    $query->where('arrival_stop_id', $request->input('start_station_id'));
-            })->get();
+                ->orWhere(function ($query) use ($request){
+                    $query->whereRelation('reservations', 'arrival_stop_id', $request->input('start_station_id'))
+                        ->whereDoesntHave('reservations', function ($query) use ($request){
+                            $query->where('departure_stop_id', $request->input('start_station_id'));
+                        });
+                })->get();
         });
 
         return ApiResponse::success(TripWithAvailableSeatsResource::collection($trips));

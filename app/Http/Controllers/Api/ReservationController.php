@@ -25,10 +25,21 @@ class ReservationController extends Controller
     public function store(StoreReservationRequest $request)
     {
         // first validate that there is actually a valid seat with this trip_id and seat_id
-        $trip = Trip::findOrFail($request->input('trip_id'));
+        $trip = Trip::withWhereHas('stops', function($query) use($request){
+            $query->where('station_id', $request->input('start_station_id'))
+                ->orWhere('station_id', $request->input('end_station_id'));
+        })
+            ->whereRelation('stops', 'station_id', $request->input('end_station_id'))
+            ->find($request->input('trip_id'));
+
+        if(!$trip){
+            return ApiResponse::fail([], 'No trip with such data');
+        }
 
         if($trip->stops->count() > 1){
-            if($trip->stops->first()->order > $trip->stops->last()->order){
+            $startStation = $trip->stops->where('station_id', $request->input('start_station_id'))->first();
+            $endStation = $trip->stops->where('station_id', $request->input('end_station_id'))->first();
+            if($startStation->order > $endStation->order){
                 throw new WrongStationsOrderException();
             }
         }
@@ -37,8 +48,11 @@ class ReservationController extends Controller
             ->where('id', $request->input('seat_id'))
             ->where(function (Builder $query) use ($request){
                 $query->whereDoesntHave('reservations')
-                    ->orWhereHas('reservations', function($query) use ($request) {
-                        $query->where('arrival_stop_id', $request->input('start_station_id'));
+                    ->orWhere(function (Builder $query) use ($request){
+                        $query->whereRelation('reservations', 'arrival_stop_id', $request->input('start_station_id'))
+                            ->whereDoesntHave('reservations', function (Builder $query) use ($request){
+                                $query->where('departure_stop_id', $request->input('start_station_id'));
+                            });
                     });
             })
             ->get();
