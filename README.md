@@ -4,7 +4,7 @@
 
 ## Docker
 
-To install with Docker [laravel sail](https://laravel.com/docs/9.x/sail), run following commands:
+To install with Docker using [laravel sail](https://laravel.com/docs/9.x/sail), run following commands:
     (please note it may take several minutes only in the first time to build containers)
 
 ```
@@ -20,7 +20,10 @@ docker run --rm \
 
 ./vendor/bin/sail up -d
 cp .env.example .env
-./vendor/bin/sail artisan key:generate
+./vendor/bin/sail php artisan key:generate
+./vendor/bin/sail php artisan migrate --seed
+./vendor/bin/sail npm install
+./vendor/bin/sail npm run build
 
 ```
 
@@ -29,3 +32,5 @@ cp .env.example .env
 # APIS
 
 all apis exists in postman collection in project root, you can import it to easily test the apis 
+
+***Note*** : This repo contains the apis part only, and just contains the scaffolding of administration dashboard as dashboard is just a couple of normal cruds.
