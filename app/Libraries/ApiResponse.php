@@ -4,7 +4,7 @@ namespace App\Libraries;
 
 class ApiResponse
 {
-    public static function success($data, $message, $status = 200){
+    public static function success($data = [], $message = '', $status = 200){
         return response()->json([
             'message' => $message,
             'data' => $data,
@@ -12,7 +12,7 @@ class ApiResponse
     }
 
 
-    public static function fail($data, $message, $status = 400){
+    public static function fail($data = [], $message = '', $status = 400){
         return response()->json([
             'message' => $message,
             'data' => $data,

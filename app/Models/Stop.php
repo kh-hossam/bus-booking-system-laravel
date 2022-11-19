@@ -22,4 +22,8 @@ class Stop extends Model
     {
         return $this->belongsTo(Station::class);
     }
+
+    public function reservations(){
+        return $this->hasMany(Reservation::class);
+    }
 }

@@ -16,4 +16,8 @@ class Seat extends Model
     {
         return $this->belongsTo(Bus::class);
     }
+
+    public function reservations(){
+        return $this->hasMany(Reservation::class);
+    }
 }
