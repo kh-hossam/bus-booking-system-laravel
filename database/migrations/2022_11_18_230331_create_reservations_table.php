@@ -19,6 +19,7 @@ return new class extends Migration
             $table->foreignId('user_id')->constrained();
             $table->foreignId('departure_stop_id')->constrained('stops');
             $table->foreignId('arrival_stop_id')->constrained('stops');
+            // $table->foreignId('stop_id')->constrained();
             $table->timestamps();
         });
     }

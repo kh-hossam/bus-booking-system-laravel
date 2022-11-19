@@ -17,6 +17,8 @@ return new class extends Migration
             $table->id();
             $table->foreignId('trip_id')->constrained()->cascadeOnDelete();
             $table->foreignId('station_id')->constrained()->cascadeOnDelete();
+            // $table-> foreignId('start_station_id')->constrained('stations')->cascadeOnDelete();
+            // $table-> foreignId('end_station_id')->constrained('stations')->cascadeOnDelete();
             $table->unsignedTinyInteger('order');
             $table->timestamps();
         });

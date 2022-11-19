@@ -16,8 +16,14 @@ class BusSeeder extends Seeder
      */
     public function run()
     {
+        $seats = [];
+        for ($i = 1; $i <= 12; $i++) {
+            $seats[] = ['number' => $i];
+        }
+
         Bus::factory(10)
-            ->has(Seat::factory()->count(12))
-            ->create();
+            ->create()->each(function(Bus $bus) use ($seats) {
+                $bus->seats()->createMany($seats);
+            });
     }
 }

@@ -15,8 +15,6 @@ return new class extends Migration
     {
         Schema::create('trips', function (Blueprint $table) {
             $table->id();
-            $table-> foreignId('start_station_id')->constrained('stations')->cascadeOnDelete();
-            $table-> foreignId('end_station_id')->constrained('stations')->cascadeOnDelete();
             $table-> foreignId('bus_id')->constrained()->cascadeOnDelete();
             $table->timestamps();
         });

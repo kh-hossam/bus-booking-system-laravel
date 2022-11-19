@@ -22,15 +22,15 @@ class TripSeeder extends Seeder
 
         $stations = Station::take(5)->get();
 
-        $trip = $bus->trips()->create([
-            'start_station_id' => $stations->first()->id,
-            'end_station_id' => $stations->last()->id,
-        ]);
-
-        // $stops = $stations->slice(1, 3);
+        $trip = $bus->trips()->create();
 
         foreach ($stations as $key => $stop) {
-            $trip->stops()->create(['station_id' => $stop->id, 'order' => $key + 1]);
+            $trip->stops()->create([
+                // 'start_station_id' => $stations[$key - 1]->id,
+                // 'end_station_id' => $stop->id,
+                'station_id' => $stop->id,
+                'order' => $key
+            ]);
         }
     }
 }

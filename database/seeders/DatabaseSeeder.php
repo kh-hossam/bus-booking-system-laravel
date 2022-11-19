@@ -28,6 +28,7 @@ class DatabaseSeeder extends Seeder
         DB::table('users')->truncate();
         DB::table('stations')->truncate();
         DB::table('buses')->truncate();
+        DB::table('seats')->truncate();
         DB::table('reservations')->truncate();
         DB::table('stops')->truncate();
         DB::table('trips')->truncate();

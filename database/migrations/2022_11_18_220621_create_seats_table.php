@@ -15,8 +15,11 @@ return new class extends Migration
     {
         Schema::create('seats', function (Blueprint $table) {
             $table->id();
+            $table->string('number');
             $table->foreignId('bus_id')->constrained()->cascadeOnDelete();
             $table->timestamps();
+
+            $table->unique(['bus_id', 'number']);
         });
     }
 
