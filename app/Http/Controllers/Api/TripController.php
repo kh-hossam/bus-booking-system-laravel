@@ -43,7 +43,7 @@ class TripController extends Controller
 
             $trip->available_seats = $trip->bus->seats()->whereDoesntHave('reservations')
                 ->orWhere(function ($query) use ($request){
-                    $query->whereRelation('reservations', 'arrival_stop_id', $request->input('start_station_id'))
+                    $query->whereRelation('reservations', 'arrival_stop_id', '<=', $request->input('start_station_id'))
                         ->whereDoesntHave('reservations', function ($query) use ($request){
                             $query->where('departure_stop_id', $request->input('start_station_id'));
                         });

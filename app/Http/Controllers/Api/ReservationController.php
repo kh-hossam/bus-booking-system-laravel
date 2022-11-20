@@ -49,7 +49,7 @@ class ReservationController extends Controller
             ->where(function (Builder $query) use ($request){
                 $query->whereDoesntHave('reservations')
                     ->orWhere(function (Builder $query) use ($request){
-                        $query->whereRelation('reservations', 'arrival_stop_id', $request->input('start_station_id'))
+                        $query->whereRelation('reservations', 'arrival_stop_id', '<=', $request->input('start_station_id'))
                             ->whereDoesntHave('reservations', function (Builder $query) use ($request){
                                 $query->where('departure_stop_id', $request->input('start_station_id'));
                             });
